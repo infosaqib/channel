@@ -81,6 +81,9 @@
                             console.log('Email sent successfully!', response.status, response.text);
                         })
                         .then(()=>{
+                            alert('redirecting to whatsapp...')
+                        })
+                        .then(()=>{
                             window.location.href = 'https://wa.me/+923021105464?text=Hi%2C+are+you+interested+in+our+product%3F'
                         })
                         .catch(error => {
