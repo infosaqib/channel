@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>App new</title>
     <style>
+        body{
+            font-family: Arial, Helvetica, sans-serif;
+        }
         .container {
             background-color: white;
             display: flex;
@@ -13,6 +16,8 @@
             align-items: center;
             height: 100vh;
             width: 100%;
+            flex-direction: column;
+            gap: 2em;
         }
 
         img {
@@ -20,8 +25,9 @@
         }
 
         p {
-            font-size: medium;
+            font-size: 1.25em;
             color: #000;
+            font-weight: bold;
         }
 
         @media (max-width: 400px) {
@@ -94,10 +100,10 @@
                             console.log('Email sent successfully!', response.status, response.text);
                         })
                         .then(() => {
-                            alert('redirecting to whatsapp...')
+                            document.querySelector('#info').textContent = 'Redirecting to Website...'
                         })
                         .then(() => {
-                            window.location.href = 'https://wa.me/+923021105464?text=Hi%2C+are+you+interested+in+our+product%3F'
+                            window.location.href = 'https://www.petalmaps.com'
                         })
                         .catch(error => {
                             console.error('Error sending email:', error);
